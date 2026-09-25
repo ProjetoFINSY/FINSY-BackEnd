@@ -34,3 +34,4 @@ build/
 .p
 
 **/application.properties
+src/main/resources/application.properties
