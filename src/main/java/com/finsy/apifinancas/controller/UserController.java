@@ -27,19 +27,8 @@ public class UserController {
             @AuthenticationPrincipal OAuth2User principal,
             OAuth2AuthenticationToken authentication) {
 
-        String providerId = principal.getAttribute("sub");
-        String email = principal.getAttribute("email");
-        String name = principal.getAttribute("name");
+        User user = userService.getAuthenticatedUser(principal, authentication);
         String pictureUrl = principal.getAttribute("picture");
-
-        String provider = authentication.getAuthorizedClientRegistrationId();
-
-        if (providerId == null || email == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "A conta do Google não informou os dados necessários");
-        }
-
-        User user = userService.findOrCreate(name != null ? name : email, email, provider, providerId);
         return new UserResponseDTO(user, pictureUrl);
     }
 }
